@@ -69,6 +69,7 @@ The dataset contains:
 | Species | 3 |
 | Samples per species | 50 |
 | Missing values | 0 |
+| Duplicate rows detected | 1 |
 
 ### Features
 
@@ -401,10 +402,10 @@ f1 = f1_score(
 
 | Metric | Result |
 |---|---:|
-| Accuracy | Run latest code |
-| Precision | Run latest code |
-| Recall | Run latest code |
-| F1 Score | Run latest code |
+| Accuracy | **93.33%** |
+| Precision | **93.33%** |
+| Recall | **93.33%** |
+| F1 Score | **93.33%** |
 
 The latest execution output should be used as the final reported result.
 
@@ -426,6 +427,17 @@ misclassified = error_analysis[
 ```
 
 This allows individual classification errors to be inspected rather than relying only on an overall accuracy score.
+
+### Actual Error Analysis
+
+The model misclassified **2 out of 30 test samples**.
+
+The errors occurred between:
+
+- Versicolor → Virginica
+- Virginica → Versicolor
+
+This indicates that the model finds these two species comparatively more difficult to distinguish because their measurements overlap.
 
 ### Practical Interpretation
 
@@ -452,6 +464,15 @@ test_accuracy = accuracy_score(
 
 accuracy_gap = train_accuracy - test_accuracy
 ```
+### Actual Model Results
+
+| Metric | Result |
+|---|---:|
+| Training Accuracy | **95.83%** |
+| Testing Accuracy | **93.33%** |
+| Accuracy Gap | **2.50%** |
+
+The small 2.50 percentage-point gap between training and testing accuracy indicates that the model generalizes reasonably well and does not show strong evidence of overfitting on this test split.
 
 ### Interpretation
 
