@@ -1,37 +1,45 @@
 # 🌸 Iris Species Analysis and Classification
 
-A complete 5-week Data Science with Python project developed as part of the **YuvaIntern Data Science Internship**.
+## YuvaIntern 5-Week Data Science with Python Project
 
-This project demonstrates an end-to-end data science workflow using the classic Iris dataset, covering data acquisition, data cleaning, exploratory data analysis, visualization, statistical hypothesis testing, machine learning, model evaluation, error analysis, and practical recommendations.
+A complete end-to-end Data Science project developed as part of the **YuvaIntern Data Science with Python Internship**.
+
+This project analyzes the classic Iris dataset and builds a machine learning classification model to predict Iris flower species using sepal and petal measurements.
+
+The project covers the complete data science workflow:
+
+**Data Acquisition → Data Cleaning → EDA → Visualization → Statistical Analysis → Machine Learning → Model Evaluation → Error Analysis → Practical Insights**
 
 ---
 
-## 📌 Project Overview
+# 📌 Project Overview
 
-The objective of this project is to analyze Iris flower measurements and build a machine learning model capable of classifying flowers into one of three species:
+The objective of this project is to analyze measurements of Iris flowers and classify them into three species:
 
 - 🌱 Iris Setosa
 - 🌸 Iris Versicolor
 - 🌺 Iris Virginica
 
-The project combines statistical analysis and machine learning to understand which measurements are most useful for distinguishing different Iris species.
+The analysis combines exploratory data analysis, statistical hypothesis testing, visualization, and machine learning to understand the relationships between flower measurements and species classification.
 
 ---
 
-## 🎯 Project Objectives
+# 🎯 Project Objectives
 
 The major objectives of this project are:
 
-1. Acquire and prepare the Iris dataset.
-2. Perform data cleaning and exploratory data analysis.
-3. Analyze feature distributions and relationships.
-4. Visualize important patterns in the dataset.
-5. Perform statistical hypothesis testing.
-6. Build a machine learning classification pipeline.
-7. Evaluate model performance using multiple metrics.
-8. Analyze classification errors.
-9. Investigate possible overfitting and underfitting.
-10. Derive practical insights and future improvements.
+1. Acquire the Iris dataset using Scikit-learn.
+2. Inspect and clean the dataset.
+3. Perform exploratory data analysis.
+4. Analyze feature distributions and relationships.
+5. Create meaningful data visualizations.
+6. Perform statistical hypothesis testing.
+7. Build a Logistic Regression classification model.
+8. Evaluate the model using multiple performance metrics.
+9. Analyze classification errors.
+10. Check for possible overfitting and underfitting.
+11. Identify practical applications and business implications.
+12. Define future improvements for the project.
 
 ---
 
@@ -52,15 +60,13 @@ YuvaIntern-Data-Science-with-Python/
 └── model_performance.png
 ```
 
-> The visualization files are generated automatically when `final_project.py` is executed.
-
 ---
 
 # 📊 Dataset
 
-The project uses the **Iris dataset** provided by Scikit-learn.
+The project uses the **Iris dataset** available through Scikit-learn.
 
-The dataset contains:
+The dataset contains measurements of three Iris species.
 
 | Property | Value |
 |---|---:|
@@ -71,16 +77,18 @@ The dataset contains:
 | Missing values | 0 |
 | Duplicate rows detected | 1 |
 
-### Features
+## Features
+
+The four numerical features are:
 
 - Sepal Length (cm)
 - Sepal Width (cm)
 - Petal Length (cm)
 - Petal Width (cm)
 
-### Target
+## Target Variable
 
-The target variable is the Iris species:
+The target variable contains three classes:
 
 ```text
 setosa
@@ -92,37 +100,53 @@ virginica
 
 # 🔬 Methodology
 
-The project follows a complete data science workflow:
+The project follows a structured five-week data science methodology.
 
 ```text
-Data Acquisition
-       ↓
-Data Cleaning
-       ↓
-Exploratory Data Analysis
-       ↓
-Data Visualization
-       ↓
-Statistical Hypothesis Testing
-       ↓
-Train-Test Split
-       ↓
-Feature Scaling
-       ↓
-Logistic Regression
-       ↓
-Model Evaluation
-       ↓
-Error Analysis
-       ↓
-Practical Insights
+                    Iris Dataset
+                         │
+                         ▼
+                Data Acquisition
+                         │
+                         ▼
+                 Data Inspection
+                         │
+                         ▼
+                 Data Cleaning
+                         │
+                         ▼
+           Exploratory Data Analysis
+                         │
+                         ▼
+                Data Visualization
+                         │
+                         ▼
+           Statistical Hypothesis Testing
+                         │
+                         ▼
+                  Train/Test Split
+                         │
+                         ▼
+                  Feature Scaling
+                         │
+                         ▼
+                Logistic Regression
+                         │
+                         ▼
+                 Model Evaluation
+                         │
+                         ▼
+                   Error Analysis
+                         │
+                         ▼
+              Practical Recommendations
 ```
 
 ---
 
 # 📅 Week 1 — Data Acquisition, Cleaning and EDA
 
-## Data Acquisition
+## 1. Data Acquisition
 
 The Iris dataset is loaded using Scikit-learn:
 
@@ -133,41 +157,73 @@ iris = load_iris(as_frame=True)
 df = iris.frame.copy()
 ```
 
-The dataset is then converted into a Pandas DataFrame and the columns are renamed for readability.
+The dataset is then converted into a Pandas DataFrame.
 
-## Data Cleaning
+The columns are renamed for better readability:
+
+```python
+df.columns = [
+    "sepal_length_cm",
+    "sepal_width_cm",
+    "petal_length_cm",
+    "petal_width_cm",
+    "species_id"
+]
+```
+
+The numerical target values are converted into species names:
+
+```python
+df["species"] = df["species_id"].map(
+    dict(enumerate(iris.target_names))
+)
+
+df.drop(columns=["species_id"], inplace=True)
+```
+
+---
+
+## 2. Data Quality Checks
 
 The following checks were performed:
 
-- Missing value detection
-- Duplicate row detection
-- Dataset structure inspection
+- Dataset shape
+- Missing values
+- Duplicate rows
 - Descriptive statistics
-- Species distribution analysis
+- Species distribution
 
 Example:
 
 ```python
+print(df.shape)
 print(df.isna().sum())
 print(df.duplicated().sum())
 print(df.describe())
+print(df["species"].value_counts())
 ```
 
-### EDA Findings
+### Data Quality Findings
 
-The dataset contains measurements for three Iris species.
+- Dataset contains **150 observations**.
+- There are **4 numerical features**.
+- There are **3 Iris species**.
+- No missing values were detected.
+- **1 duplicate row was detected**.
 
-The analysis shows that petal measurements provide strong information for distinguishing the species, while some measurements show greater overlap between Versicolor and Virginica.
+The duplicate was identified during the data-quality check and is reported transparently in the analysis.
 
 ---
 
 # 📈 Week 2 — Data Visualization and Storytelling
 
-Multiple visualizations were created to understand the dataset.
+Multiple visualizations were created to understand the structure and relationships within the dataset.
+
+---
 
 ## 1. Species Distribution
 
-A bar chart shows the number of observations belonging to each species.
+The dataset contains 50 observations for each Iris species.
 
 ```python
 species_counts = df["species"].value_counts()
@@ -179,67 +235,102 @@ plt.xlabel("Species")
 plt.ylabel("Number of Samples")
 ```
 
+### Visualization
+
+![Species Distribution](species_distribution.png)
+
+### Interpretation
+
+The dataset is evenly distributed across the three species, with 50 observations per species.
+
+---
+
 ## 2. Feature Distributions
 
-Histograms are used to understand the distribution of:
-
-- Sepal Length
-- Sepal Width
-- Petal Length
-- Petal Width
+Histograms were created for all four numerical features.
 
 ```python
+features = [
+    "sepal_length_cm",
+    "sepal_width_cm",
+    "petal_length_cm",
+    "petal_width_cm"
+]
+
 df[features].hist(figsize=(10, 8), bins=15)
+
+plt.suptitle("Distribution of Iris Features")
 ```
 
-## 3. Correlation Analysis
+### Visualization
 
-A correlation matrix is used to identify relationships between numerical features.
+![Feature Distributions](feature_distributions.png)
+
+### Interpretation
+
+The feature distributions show differences in the measurement ranges of the Iris species.
+
+Petal length and petal width show particularly useful separation patterns.
+
+---
+
+## 3. Feature Correlation
+
+A correlation matrix was calculated to understand relationships between numerical features.
 
 ```python
 correlation_matrix = df[features].corr()
+
+print(correlation_matrix)
 ```
 
-This helps identify which measurements are strongly related to each other.
+### Visualization
+
+![Feature Correlation Matrix](correlation_matrix.png)
+
+### Key Observations
+
+The analysis shows strong positive relationships between:
+
+- Sepal length and petal length
+- Sepal length and petal width
+- Petal length and petal width
+
+Petal length and petal width have a particularly strong positive correlation.
+
+---
 
 ## 4. Petal Length vs Petal Width
 
-A scatter plot compares petal length and petal width across the three species.
+A scatter plot was created to visualize the relationship between petal length and petal width for each species.
 
-This visualization helps demonstrate why petal measurements are useful for classification.
+```python
+for species in iris.target_names:
+
+    subset = df[df["species"] == species]
+
+    plt.scatter(
+        subset["petal_length_cm"],
+        subset["petal_width_cm"],
+        label=species
+    )
+```
+
+### Visualization
+
+![Petal Length vs Petal Width](petal_length_vs_width.png)
+
+### Interpretation
+
+The visualization shows clear separation of Setosa from the other species.
+
+Versicolor and Virginica are closer to each other and show some overlap, which helps explain the classification errors produced by the machine learning model.
 
 ---
 
 # 🧪 Week 3 — Statistical Analysis and Hypothesis Testing
 
-Statistical testing was performed to determine whether differences observed in the dataset are statistically significant.
-
-## Welch's Independent Samples T-Test
-
-The first test compares petal length between:
-
-- Iris Versicolor
-- Iris Virginica
-
-### Null Hypothesis (H₀)
-
-The mean petal length of Versicolor and Virginica is equal.
-
-### Alternative Hypothesis (H₁)
-
-The mean petal length of Versicolor and Virginica is different.
-
-### Method
-
-Welch's t-test was selected because it does not require the two groups to have equal population variances.
-
-```python
-t_stat, p_value = stats.ttest_ind(
-    versicolor,
-    virginica,
-    equal_var=False
-)
-```
+Statistical hypothesis testing was used to determine whether observed differences in petal measurements were statistically significant.
 
 A significance level of:
 
@@ -249,7 +340,43 @@ A significance level of:
 
 was used.
 
-If:
+---
+
+# 1. Welch's Independent Samples T-Test
+
+Welch's t-test was performed to compare petal length between:
+
+- Iris Versicolor
+- Iris Virginica
+
+## Null Hypothesis (H₀)
+
+The mean petal length of Versicolor and Virginica is equal.
+
+## Alternative Hypothesis (H₁)
+
+The mean petal length of Versicolor and Virginica is different.
+
+## Methodology
+
+Welch's t-test was selected because it does not require the two groups to have equal variances.
+
+```python
+t_stat, p_value = stats.ttest_ind(
+    versicolor,
+    virginica,
+    equal_var=False
+)
+```
+
+## Result
+
+```text
+T-statistic ≈ -12.6038
+P-value ≈ 4.90 × 10⁻²²
+```
+
+Since:
 
 ```text
 p-value < 0.05
@@ -257,23 +384,21 @@ p-value < 0.05
 
 the null hypothesis is rejected.
 
-### Interpretation
+### Conclusion
 
-The test indicates a statistically significant difference in petal length between Versicolor and Virginica.
-
-This supports the visual observation that petal measurements can help distinguish Iris species.
+There is a statistically significant difference in petal length between Iris Versicolor and Iris Virginica.
 
 ---
 
-## One-Way ANOVA
+# 2. One-Way ANOVA
 
-A one-way ANOVA was performed to compare petal length across all three species.
+A one-way ANOVA was performed to compare petal length across all three Iris species.
 
-### Null Hypothesis (H₀)
+## Null Hypothesis (H₀)
 
 All three species have the same mean petal length.
 
-### Alternative Hypothesis (H₁)
+## Alternative Hypothesis (H₁)
 
 At least one species has a different mean petal length.
 
@@ -286,21 +411,40 @@ groups = [
 f_stat, anova_p = stats.f_oneway(*groups)
 ```
 
-### Interpretation
+## Result
 
-The ANOVA result indicates statistically significant differences in petal length across the Iris species.
+```text
+F-statistic ≈ 1180.1612
+P-value ≈ 2.86 × 10⁻⁹¹
+```
 
-This provides statistical evidence that species classification can be supported by measurable differences in flower characteristics.
+Since:
+
+```text
+p-value < 0.05
+```
+
+the null hypothesis is rejected.
+
+### Conclusion
+
+There is strong statistical evidence that petal length differs across the three Iris species.
 
 ---
 
-# 🤖 Week 4 — Machine Learning Model
+# 🤖 Week 4 — Machine Learning Model Development
 
-## Model Used
+## Model Selection
 
-A **Logistic Regression** classifier was developed as the baseline machine learning model.
+A **Logistic Regression** classifier was selected as the baseline machine learning model.
 
-Before training, the data was divided into training and testing sets.
+Logistic Regression is appropriate for this classification problem because the target contains three categorical classes.
+
+---
+
+# 🔀 Train-Test Split
+
+The dataset was divided into training and testing sets.
 
 ```python
 X_train, X_test, y_train, y_test = train_test_split(
@@ -312,20 +456,20 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 ```
 
-### Dataset Split
+### Split Used
 
-```text
-80% → Training
-20% → Testing
-```
+| Dataset | Samples |
+|---|---:|
+| Training set | 120 |
+| Testing set | 30 |
 
-The `stratify=y` parameter maintains a balanced representation of all three species in both sets.
+The `stratify=y` parameter was used to maintain the class distribution across training and testing datasets.
 
 ---
 
 # ⚙️ Machine Learning Pipeline
 
-A Scikit-learn Pipeline was used to combine preprocessing and model training.
+A Scikit-learn Pipeline was used to combine feature scaling and classification.
 
 ```python
 model = Pipeline([
@@ -343,21 +487,25 @@ model = Pipeline([
 ])
 ```
 
-### Pipeline Steps
+## Pipeline Steps
 
-### Step 1 — Standardization
+### Step 1 — StandardScaler
 
-`StandardScaler` standardizes numerical features so that they are placed on a comparable scale.
+The numerical features are standardized so that differences in feature scale do not disproportionately affect the model.
 
 ### Step 2 — Logistic Regression
 
-Logistic Regression performs multi-class classification and predicts the species of an Iris flower based on its measurements.
+The scaled features are provided to Logistic Regression for multi-class classification.
 
-### Step 3 — Prediction
+### Step 3 — Model Training
 
 ```python
 model.fit(X_train, y_train)
+```
 
+### Step 4 — Prediction
+
+```python
 y_test_pred = model.predict(X_test)
 ```
 
@@ -365,17 +513,20 @@ y_test_pred = model.predict(X_test)
 
 # 📊 Model Evaluation
 
-The model is evaluated using:
+The trained model was evaluated using:
 
 - Accuracy
 - Precision
 - Recall
 - F1 Score
-- Confusion Matrix
 - Classification Report
+- Confusion Matrix
 
 ```python
-accuracy = accuracy_score(y_test, y_test_pred)
+accuracy = accuracy_score(
+    y_test,
+    y_test_pred
+)
 
 precision = precision_score(
     y_test,
@@ -396,9 +547,11 @@ f1 = f1_score(
 )
 ```
 
-## Performance Results
+---
 
-> **Important:** The values below should be updated with the exact output produced by the latest version of `final_project.py`.
+# 🏆 Final Model Results
+
+The latest execution of the project produced the following results:
 
 | Metric | Result |
 |---|---:|
@@ -407,13 +560,68 @@ f1 = f1_score(
 | Recall | **93.33%** |
 | F1 Score | **93.33%** |
 
-The latest execution output should be used as the final reported result.
+The model correctly classified **28 out of 30 test samples**.
+
+---
+
+# 📋 Classification Report
+
+The model achieved the following class-level performance:
+
+| Species | Precision | Recall | F1 Score |
+|---|---:|---:|---:|
+| Setosa | 1.00 | 1.00 | 1.00 |
+| Versicolor | 0.90 | 0.90 | 0.90 |
+| Virginica | 0.90 | 0.90 | 0.90 |
+
+The results show that Setosa was classified perfectly in the test split, while Versicolor and Virginica had minor confusion.
+
+---
+
+# 🔲 Confusion Matrix
+
+The confusion matrix provides a detailed view of correct and incorrect predictions.
+
+![Confusion Matrix](confusion_matrix.png)
+
+### Confusion Matrix Results
+
+```text
+                 Predicted
+              Setosa  Versicolor  Virginica
+
+Setosa           10        0          0
+
+Versicolor        0        9          1
+
+Virginica         0        1          9
+```
+
+### Interpretation
+
+- **10/10 Setosa** samples were correctly classified.
+- **9/10 Versicolor** samples were correctly classified.
+- **9/10 Virginica** samples were correctly classified.
+- One Versicolor sample was predicted as Virginica.
+- One Virginica sample was predicted as Versicolor.
+
+The errors occurred only between Versicolor and Virginica.
+
+---
+
+# 📈 Model Performance Visualization
+
+The following chart compares Accuracy, Precision, Recall and F1 Score.
+
+![Model Performance](model_performance.png)
+
+All four evaluation metrics are approximately **93.33%**, indicating consistent model performance.
 
 ---
 
 # 🔍 Error Analysis
 
-Model predictions are compared with the actual species labels to identify incorrectly classified observations.
+Error analysis was performed by comparing actual and predicted labels.
 
 ```python
 error_analysis = X_test.copy()
@@ -426,30 +634,38 @@ misclassified = error_analysis[
 ]
 ```
 
-This allows individual classification errors to be inspected rather than relying only on an overall accuracy score.
+## Results
 
-### Actual Error Analysis
+The model misclassified:
 
-The model misclassified **2 out of 30 test samples**.
+```text
+2 out of 30 test samples
+```
 
-The errors occurred between:
+The errors were:
 
-- Versicolor → Virginica
-- Virginica → Versicolor
+| Actual Species | Predicted Species |
+|---|---|
+| Virginica | Versicolor |
+| Versicolor | Virginica |
 
-This indicates that the model finds these two species comparatively more difficult to distinguish because their measurements overlap.
+### Detailed Observation
 
-### Practical Interpretation
+The two misclassified observations had measurements that were relatively close to the overlapping region between Versicolor and Virginica.
 
-Classification errors are expected to occur mainly where species have overlapping physical measurements.
+This demonstrates why error analysis is important: overall accuracy shows how well the model performs, while individual errors help explain **where and why** the model struggles.
 
-In particular, **Versicolor and Virginica** have more similar measurements than Setosa, making their classification comparatively more challenging.
+### Main Finding
+
+Setosa is much easier to distinguish from the other two species.
+
+Versicolor and Virginica have more similar measurements, particularly in their petal characteristics, which increases the possibility of classification confusion.
 
 ---
 
 # 🧠 Overfitting and Underfitting Analysis
 
-Training and testing performance are compared to determine whether the model generalizes well.
+Training and testing accuracy were compared to assess model generalization.
 
 ```python
 train_accuracy = accuracy_score(
@@ -464,118 +680,146 @@ test_accuracy = accuracy_score(
 
 accuracy_gap = train_accuracy - test_accuracy
 ```
-### Actual Model Results
+
+## Actual Results
 
 | Metric | Result |
 |---|---:|
 | Training Accuracy | **95.83%** |
 | Testing Accuracy | **93.33%** |
-| Accuracy Gap | **2.50%** |
-
-The small 2.50 percentage-point gap between training and testing accuracy indicates that the model generalizes reasonably well and does not show strong evidence of overfitting on this test split.
+| Accuracy Gap | **2.50 percentage points** |
 
 ### Interpretation
 
-A large difference between training and testing accuracy can indicate possible overfitting.
+The training accuracy is slightly higher than the testing accuracy, which is expected in many machine learning problems.
 
-If both training and testing performance are low, the model may be underfitting.
+The difference is only **2.50 percentage points**, indicating that the model maintains strong performance on unseen test data.
 
-A small performance gap with strong testing performance indicates better generalization.
+There is **no strong evidence of overfitting** on this test split.
 
-The latest execution of the project reports the actual training and testing accuracy values.
+The model also does not show signs of underfitting because both training and testing performance are high.
 
----
+### Generalization
 
-# 📉 Confusion Matrix
-
-The confusion matrix provides a detailed view of correct and incorrect predictions for each species.
-
-It helps answer questions such as:
-
-- How many Setosa samples were classified correctly?
-- How many Versicolor samples were confused with Virginica?
-- Which species is hardest for the model to distinguish?
-
-This provides more detailed information than accuracy alone.
+The small gap between training and testing accuracy suggests that the model generalizes reasonably well for this dataset and split.
 
 ---
 
-# 💼 Practical / Business Implications
+# 💡 Key Data Science Insights
 
-Although Iris is an educational dataset, the same workflow can be applied to real-world classification problems.
+The analysis produced several important findings.
 
-### Potential Applications
+### 1. Petal measurements are highly informative
 
-🌱 **Plant Identification**
+Petal length and petal width show strong relationships with other features and provide useful information for species classification.
 
-Automated identification of plant species based on measurable characteristics.
+### 2. Setosa is easier to classify
 
-🔬 **Botanical Research**
+The visualization and confusion matrix show that Setosa is clearly separated from the other species.
 
-Statistical analysis can help researchers understand differences between species.
+### 3. Versicolor and Virginica are more difficult to distinguish
 
-🤖 **Automated Classification**
+These species have overlapping measurements, resulting in the two observed classification errors.
 
-Machine learning can reduce manual classification effort when measurable features are available.
+### 4. Statistical testing supports the visual findings
 
-📚 **Educational Applications**
+Both Welch's t-test and one-way ANOVA found statistically significant differences in petal length.
 
-The project demonstrates a complete machine learning workflow for students and beginners.
+### 5. Logistic Regression provides a strong baseline
 
-### General Business Value
+The model achieved:
 
-The same approach can be adapted to business problems such as:
+**93.33% Accuracy, Precision, Recall and F1 Score**
+
+on the test set.
+
+---
+
+# 💼 Practical and Business Implications
+
+Although the Iris dataset is primarily educational, the methodology demonstrated in this project can be applied to real-world classification problems.
+
+## 🌱 Automated Plant Identification
+
+A classification model could help identify plant species using measurable characteristics.
+
+## 🔬 Botanical Research
+
+Statistical analysis can help researchers identify meaningful differences between plant species.
+
+## 🤖 Automated Classification Systems
+
+Machine learning can automate repetitive classification tasks when reliable features are available.
+
+## 📚 Education and Training
+
+The project demonstrates a complete practical machine learning workflow from raw data to model evaluation.
+
+---
+
+# 🌍 Broader Real-World Applications
+
+The same workflow can be adapted to problems such as:
 
 - Customer classification
-- Fraud detection
 - Customer churn prediction
+- Fraud detection
 - Product categorization
-- Medical image classification
 - Quality-control systems
+- Medical classification
+- Image classification
+- Recommendation systems
 
-The important principle is to combine **data analysis + statistical evidence + predictive modeling** rather than relying on a single technique.
+The general approach remains:
+
+**Collect Data → Clean Data → Analyze → Visualize → Test → Train → Evaluate → Improve**
 
 ---
 
 # 🚀 Future Scope
 
-The project can be improved in several ways.
+Several improvements can be implemented in future versions.
 
-## 1. Compare Multiple Algorithms
+## 1. Compare Multiple Machine Learning Algorithms
 
-Future versions can compare:
+The Logistic Regression baseline can be compared with:
 
-- Logistic Regression
 - Decision Tree
 - Random Forest
 - K-Nearest Neighbors
 - Support Vector Machine
 
+This would help determine which algorithm performs best.
+
 ## 2. Cross-Validation
 
-K-fold cross-validation can provide a more robust estimate of model performance.
+K-Fold Cross-Validation can provide a more robust estimate of model performance than relying on a single train-test split.
 
 ## 3. Hyperparameter Tuning
 
-Techniques such as Grid Search or Randomized Search can be used to optimize model parameters.
+Grid Search or Randomized Search can be used to optimize model parameters.
 
 ## 4. Feature Selection
 
-Feature importance and selection techniques can identify the most useful measurements.
+Feature selection techniques can identify which measurements contribute most strongly to classification.
 
-## 5. Model Deployment
+## 5. Model Explainability
 
-The final model could be deployed using:
+Future versions could include model interpretation techniques to understand how individual features influence predictions.
+
+## 6. Model Deployment
+
+The trained model could be deployed using:
 
 - Streamlit
 - Flask
 - FastAPI
 
-A user could enter flower measurements and receive a predicted species.
+A web interface could allow users to enter flower measurements and receive a predicted Iris species.
 
-## 6. Larger Real-World Dataset
+## 7. Larger Real-World Datasets
 
-Future work can use larger and more complex botanical datasets to evaluate whether the approach scales to real-world problems.
+The methodology could be tested on larger and more complex botanical datasets to evaluate scalability.
 
 ---
 
@@ -583,46 +827,48 @@ Future work can use larger and more complex botanical datasets to evaluate wheth
 
 | Technology | Purpose |
 |---|---|
-| Python | Programming |
+| Python | Programming and analysis |
 | Pandas | Data manipulation |
 | NumPy | Numerical computing |
-| SciPy | Statistical testing |
+| SciPy | Statistical analysis |
 | Matplotlib | Data visualization |
 | Scikit-learn | Machine learning |
 
 ---
 
-# 📦 Installation
+# 📦 Installation and Usage
 
-Clone the repository:
+## Clone the Repository
 
 ```bash
 git clone https://github.com/udai33/YuvaIntern-Data-Science-with-Python.git
 ```
 
-Move into the project directory:
+## Navigate to the Project
 
 ```bash
 cd YuvaIntern-Data-Science-with-Python
 ```
 
-Install dependencies:
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the project:
+## Run the Project
 
 ```bash
 python final_project.py
 ```
 
+Running the Python script performs the complete workflow and generates the visualization files.
+
 ---
 
 # 📁 Generated Visualizations
 
-Running `final_project.py` generates the following visualizations:
+The project generates the following visualization files:
 
 ```text
 species_distribution.png
@@ -633,43 +879,33 @@ confusion_matrix.png
 model_performance.png
 ```
 
-These visualizations can be uploaded to the repository and displayed in this README.
+These visualizations are included in this repository and displayed throughout this README.
 
 ---
 
-# 🏆 Key Takeaways
+# 📊 Project Results Summary
 
-The project demonstrates that:
-
-- Data cleaning is essential before analysis.
-- Visualization helps identify patterns that may not be obvious from raw data.
-- Statistical hypothesis testing provides quantitative evidence for observed differences.
-- Petal measurements are particularly useful for distinguishing Iris species.
-- Logistic Regression provides a strong and interpretable baseline classification model.
-- Confusion matrices and error analysis provide deeper insights than accuracy alone.
-- Comparing training and testing performance helps evaluate model generalization.
-- The complete workflow can be adapted to many real-world classification problems.
-
----
-
-# 👨‍💻 Author
-
-**Udai Singh Negi**
-
-B.Tech Computer Science & Engineering (AI)
-
-GitHub: **udai33**
+| Category | Result |
+|---|---|
+| Dataset Size | 150 observations |
+| Features | 4 |
+| Species | 3 |
+| Missing Values | 0 |
+| Duplicate Rows Detected | 1 |
+| Training Samples | 120 |
+| Testing Samples | 30 |
+| Training Accuracy | 95.83% |
+| Testing Accuracy | 93.33% |
+| Accuracy Gap | 2.50 percentage points |
+| Precision | 93.33% |
+| Recall | 93.33% |
+| F1 Score | 93.33% |
+| Misclassified Samples | 2 |
 
 ---
 
-# 📜 Internship
+# 🏆 Final Conclusion
 
-This project was developed as part of the:
+This project demonstrates a complete five-week Data Science workflow using Python.
 
-**YuvaIntern — Data Science with Python Internship**
-
-The project covers a five-week data science workflow from data acquisition to machine learning evaluation and strategic recommendations.
-
----
-
-⭐ If you find this project useful, feel free to explore the repository and the implementation in `final_project.py`.
+The analysis began with data acquisition and quality checks, followed by explorato
